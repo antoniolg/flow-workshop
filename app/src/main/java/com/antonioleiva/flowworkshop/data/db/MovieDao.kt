@@ -9,12 +9,12 @@ import androidx.room.Query
 interface MovieDao {
 
     @Query("SELECT * FROM Movie")
-    fun getAll(): List<Movie>
+    suspend fun getAll(): List<Movie>
 
     @Query("SELECT COUNT(id) FROM Movie")
-    fun movieCount(): Int
+    suspend fun movieCount(): Int
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertMovies(movies: List<Movie>)
+    suspend fun insertMovies(movies: List<Movie>)
 
 }

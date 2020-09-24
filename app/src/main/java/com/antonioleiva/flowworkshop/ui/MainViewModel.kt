@@ -24,7 +24,7 @@ class MainViewModel(repository: MoviesRepository) : ViewModel(), CoroutineScope 
     init {
         launch {
             _spinner.value = true
-            _movies.value = withContext(Dispatchers.IO) { repository.getMovies() }
+            _movies.value = repository.getMovies()
             _spinner.value = false
         }
     }
