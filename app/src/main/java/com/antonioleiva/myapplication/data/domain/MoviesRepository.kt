@@ -1,15 +1,12 @@
 package com.antonioleiva.myapplication.data.domain
 
-private const val movieCover = "/6CoRTJTmijhBLJTUNoVSUNxZMEI.jpg"
+class MoviesRepository(
+    private val remoteDataSource: RemoteDataSource,
+) {
 
-class MoviesRepository {
+    fun getMovies(): List<Movie> = remoteDataSource.getMovies()
+}
 
-    fun getMovies(): List<Movie> = listOf(
-        Movie(1, "Title 1", movieCover, 7.0),
-        Movie(1, "Title 1", movieCover, 7.0),
-        Movie(1, "Title 1", movieCover, 7.0),
-        Movie(1, "Title 1", movieCover, 7.0),
-        Movie(1, "Title 1", movieCover, 7.0),
-        Movie(1, "Title 1", movieCover, 7.0),
-    )
+interface RemoteDataSource {
+    fun getMovies(): List<Movie>
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.antonioleiva.myapplication.data.domain.Movie
 import com.antonioleiva.myapplication.data.domain.MoviesRepository
+import com.antonioleiva.myapplication.ui.common.BACKGROUND
 
 class MainViewModel(repository: MoviesRepository) : ViewModel() {
 
@@ -15,9 +16,12 @@ class MainViewModel(repository: MoviesRepository) : ViewModel() {
     val movies: LiveData<List<Movie>> get() = _movies
 
     init {
-        _spinner.value = true
-        _movies.value = repository.getMovies()
-        _spinner.value = false
+        BACKGROUND.submit {
+            val result = repository.getMovies()
+            _movies.postValue(result)
+            _spinner.postValue(false)
+        }
+
     }
 
 }
