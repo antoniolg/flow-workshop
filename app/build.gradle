@@ -10,7 +10,7 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "com.antonioleiva.myapplication"
+        applicationId "com.antonioleiva.flowworkshop"
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 1

@@ -1,3 +1,5 @@
+package com.antonioleiva.flowworkshop.ui.common
+
 import android.view.View
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel

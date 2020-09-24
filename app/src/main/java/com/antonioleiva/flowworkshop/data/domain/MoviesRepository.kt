@@ -1,4 +1,4 @@
-package com.antonioleiva.myapplication.data.domain
+package com.antonioleiva.flowworkshop.data.domain
 
 class MoviesRepository(
     private val remoteDataSource: RemoteDataSource,

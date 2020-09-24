@@ -1,4 +1,4 @@
-package com.antonioleiva.myapplication.data.server
+package com.antonioleiva.flowworkshop.data.server
 
 import retrofit2.Call
 import retrofit2.http.GET

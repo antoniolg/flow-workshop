@@ -1,11 +1,11 @@
-package com.antonioleiva.myapplication.ui
+package com.antonioleiva.flowworkshop.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.antonioleiva.myapplication.data.domain.Movie
-import com.antonioleiva.myapplication.data.domain.MoviesRepository
-import com.antonioleiva.myapplication.ui.common.BACKGROUND
+import com.antonioleiva.flowworkshop.data.domain.Movie
+import com.antonioleiva.flowworkshop.data.domain.MoviesRepository
+import com.antonioleiva.flowworkshop.ui.common.BACKGROUND
 
 class MainViewModel(repository: MoviesRepository) : ViewModel() {
 

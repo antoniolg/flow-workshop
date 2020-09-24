@@ -1,4 +1,4 @@
-package com.antonioleiva.myapplication.data.server
+package com.antonioleiva.flowworkshop.data.server
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

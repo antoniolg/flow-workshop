@@ -8,7 +8,7 @@
     android:padding="2dp"
     android:foreground="?attr/selectableItemBackground">
 
-    <com.antonioleiva.myapplication.ui.common.AspectRatioImageView
+    <com.antonioleiva.flowworkshop.ui.common.AspectRatioImageView
         android:id="@+id/movieCover"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

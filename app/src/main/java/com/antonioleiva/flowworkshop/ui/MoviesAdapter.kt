@@ -1,4 +1,4 @@
-package com.antonioleiva.myapplication.ui
+package com.antonioleiva.flowworkshop.ui
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.antonioleiva.myapplication.R
-import com.antonioleiva.myapplication.data.domain.Movie
-import com.antonioleiva.myapplication.databinding.ViewMovieBinding
+import com.antonioleiva.flowworkshop.R
+import com.antonioleiva.flowworkshop.data.domain.Movie
+import com.antonioleiva.flowworkshop.databinding.ViewMovieBinding
 import com.bumptech.glide.Glide
 
 class MoviesAdapter : ListAdapter<Movie, MoviesAdapter.ItemViewholder>(DiffCallback()) {

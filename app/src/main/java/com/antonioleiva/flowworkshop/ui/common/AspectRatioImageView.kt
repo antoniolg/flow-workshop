@@ -1,9 +1,9 @@
-package com.antonioleiva.myapplication.ui.common
+package com.antonioleiva.flowworkshop.ui.common
 
 import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
-import com.antonioleiva.myapplication.R
+import com.antonioleiva.flowworkshop.R
 
 class AspectRatioImageView @JvmOverloads constructor(
     context: Context,

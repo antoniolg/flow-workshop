@@ -1,8 +1,8 @@
-package com.antonioleiva.myapplication.data.server
+package com.antonioleiva.flowworkshop.data.server
 
-import com.antonioleiva.myapplication.data.domain.Movie
-import com.antonioleiva.myapplication.data.domain.RemoteDataSource
-import com.antonioleiva.myapplication.data.toDomainMovie
+import com.antonioleiva.flowworkshop.data.domain.Movie
+import com.antonioleiva.flowworkshop.data.domain.RemoteDataSource
+import com.antonioleiva.flowworkshop.data.toDomainMovie
 
 class TheMovieDbDataSource(private val apiKey: String) : RemoteDataSource {
 

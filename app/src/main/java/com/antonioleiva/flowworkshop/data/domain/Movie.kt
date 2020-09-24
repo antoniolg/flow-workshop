@@ -1,4 +1,4 @@
-package com.antonioleiva.myapplication.data.domain
+package com.antonioleiva.flowworkshop.data.domain
 
 data class Movie(
     val id: Int,

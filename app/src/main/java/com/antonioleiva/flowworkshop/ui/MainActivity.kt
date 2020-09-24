@@ -1,14 +1,13 @@
-package com.antonioleiva.myapplication.ui
+package com.antonioleiva.flowworkshop.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import com.antonioleiva.myapplication.R
-import com.antonioleiva.myapplication.data.domain.MoviesRepository
-import com.antonioleiva.myapplication.data.server.TheMovieDbDataSource
-import com.antonioleiva.myapplication.databinding.ActivityMainBinding
-import getViewModel
-import visible
+import com.antonioleiva.flowworkshop.R
+import com.antonioleiva.flowworkshop.data.domain.MoviesRepository
+import com.antonioleiva.flowworkshop.data.server.TheMovieDbDataSource
+import com.antonioleiva.flowworkshop.databinding.ActivityMainBinding
+import com.antonioleiva.flowworkshop.ui.common.getViewModel
+import com.antonioleiva.flowworkshop.ui.common.visible
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,9 +19,13 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater).apply {
             setContentView(root)
 
-            viewModel = getViewModel { MainViewModel(MoviesRepository(
-                TheMovieDbDataSource(getString(R.string.api_key))
-            )) }
+            viewModel = getViewModel {
+                MainViewModel(
+                    MoviesRepository(
+                        TheMovieDbDataSource(getString(R.string.api_key))
+                    )
+                )
+            }
 
             val moviesAdapter = MoviesAdapter()
 
