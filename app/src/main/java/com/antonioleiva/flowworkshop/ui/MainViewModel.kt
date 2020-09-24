@@ -5,9 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.antonioleiva.flowworkshop.data.domain.Movie
 import com.antonioleiva.flowworkshop.data.domain.MoviesRepository
-import com.antonioleiva.flowworkshop.ui.common.BACKGROUND
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
-class MainViewModel(repository: MoviesRepository) : ViewModel() {
+class MainViewModel(repository: MoviesRepository) : ViewModel(), CoroutineScope {
+
+    private val job = Job()
+
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.Main
 
     private val _spinner = MutableLiveData<Boolean>()
     val spinner: LiveData<Boolean> get() = _spinner
@@ -16,12 +22,15 @@ class MainViewModel(repository: MoviesRepository) : ViewModel() {
     val movies: LiveData<List<Movie>> get() = _movies
 
     init {
-        BACKGROUND.submit {
-            val result = repository.getMovies()
-            _movies.postValue(result)
-            _spinner.postValue(false)
+        launch {
+            _spinner.value = true
+            _movies.value = withContext(Dispatchers.IO) { repository.getMovies() }
+            _spinner.value = false
         }
+    }
 
+    override fun onCleared() {
+        job.cancel()
     }
 
 }
