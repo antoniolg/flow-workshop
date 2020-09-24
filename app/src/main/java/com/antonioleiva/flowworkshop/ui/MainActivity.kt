@@ -3,9 +3,11 @@ package com.antonioleiva.flowworkshop.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.antonioleiva.flowworkshop.R
+import com.antonioleiva.flowworkshop.data.db.RoomDataSource
 import com.antonioleiva.flowworkshop.data.domain.MoviesRepository
 import com.antonioleiva.flowworkshop.data.server.TheMovieDbDataSource
 import com.antonioleiva.flowworkshop.databinding.ActivityMainBinding
+import com.antonioleiva.flowworkshop.ui.common.app
 import com.antonioleiva.flowworkshop.ui.common.getViewModel
 import com.antonioleiva.flowworkshop.ui.common.visible
 
@@ -19,13 +21,7 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater).apply {
             setContentView(root)
 
-            viewModel = getViewModel {
-                MainViewModel(
-                    MoviesRepository(
-                        TheMovieDbDataSource(getString(R.string.api_key))
-                    )
-                )
-            }
+            viewModel = getViewModel(::buildViewModel)
 
             val moviesAdapter = MoviesAdapter()
 
@@ -35,6 +31,12 @@ class MainActivity : AppCompatActivity() {
             recycler.adapter = moviesAdapter
         }
 
-
     }
+
+    private fun buildViewModel() = MainViewModel(
+        MoviesRepository(
+            RoomDataSource(app.db),
+            TheMovieDbDataSource(getString(R.string.api_key))
+        )
+    )
 }
