@@ -2,29 +2,30 @@ package com.antonioleiva.myapplication.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.antonioleiva.myapplication.data.domain.Movie
+import androidx.lifecycle.Observer
+import com.antonioleiva.myapplication.data.domain.MoviesRepository
 import com.antonioleiva.myapplication.databinding.ActivityMainBinding
-
-private const val movieCover = "/6CoRTJTmijhBLJTUNoVSUNxZMEI.jpg"
+import getViewModel
+import visible
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var viewModel: MainViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         ActivityMainBinding.inflate(layoutInflater).apply {
             setContentView(root)
 
+            viewModel = getViewModel { MainViewModel(MoviesRepository()) }
+
             val moviesAdapter = MoviesAdapter()
+
+            viewModel.spinner.observe(this@MainActivity, { progress.visible = it })
+            viewModel.movies.observe(this@MainActivity, { moviesAdapter.submitList(it) })
+
             recycler.adapter = moviesAdapter
-            moviesAdapter.submitList(
-                listOf(
-                    Movie(1, "Title 1", movieCover, 7.0),
-                    Movie(1, "Title 1", movieCover, 7.0),
-                    Movie(1, "Title 1", movieCover, 7.0),
-                    Movie(1, "Title 1", movieCover, 7.0),
-                    Movie(1, "Title 1", movieCover, 7.0),
-                    Movie(1, "Title 1", movieCover, 7.0),
-                )
-            )
         }
 
 
