@@ -4,6 +4,8 @@ import com.antonioleiva.flowworkshop.data.domain.LocalDataSource
 import com.antonioleiva.flowworkshop.data.domain.Movie
 import com.antonioleiva.flowworkshop.data.toDomainMovie
 import com.antonioleiva.flowworkshop.data.toRoomMovie
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class RoomDataSource(db: MovieDatabase) : LocalDataSource {
 
@@ -15,5 +17,8 @@ class RoomDataSource(db: MovieDatabase) : LocalDataSource {
         movieDao.insertMovies(movies.map { it.toRoomMovie() })
     }
 
-    override suspend fun getMovies(): List<Movie> = movieDao.getAll().map { it.toDomainMovie() }
+    override fun getMovies(): Flow<List<Movie>> =
+        movieDao
+            .getAll()
+            .map { movies -> movies.map { it.toDomainMovie() } }
 }
