@@ -1,18 +1,24 @@
 package com.antonioleiva.flowworkshop.data.domain
 
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+
 class MoviesRepository(
     private val localDataSource: LocalDataSource,
     private val remoteDataSource: RemoteDataSource,
 ) {
 
-    suspend fun getMovies(): List<Movie> {
+    fun getMovies(): Flow<List<Movie>> = flow {
         if (localDataSource.isEmpty()) {
-            val movies =
-                remoteDataSource.getMovies()
+            val movies = remoteDataSource.getMovies()
             localDataSource.saveMovies(movies)
         }
 
-        return localDataSource.getMovies()
+        while (true) {
+            delay(2000)
+            emit(localDataSource.getMovies().shuffled())
+        }
     }
 }
 
