@@ -6,9 +6,9 @@ import com.antonioleiva.flowworkshop.data.toDomainMovie
 
 class TheMovieDbDataSource(private val apiKey: String) : RemoteDataSource {
 
-    override suspend fun getMovies(): List<Movie> =
+    override suspend fun getMovies(page: Int): List<Movie> =
         TheMovieDb.service
-            .listPopularMoviesAsync(apiKey)
+            .listPopularMoviesAsync(apiKey, page)
             .results
             .map { it.toDomainMovie() }
 }

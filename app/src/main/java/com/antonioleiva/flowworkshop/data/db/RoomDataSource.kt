@@ -11,7 +11,7 @@ class RoomDataSource(db: MovieDatabase) : LocalDataSource {
 
     private val movieDao = db.movieDao()
 
-    override suspend fun isEmpty(): Boolean = movieDao.movieCount() <= 0
+    override suspend fun size(): Int = movieDao.movieCount()
 
     override suspend fun saveMovies(movies: List<Movie>) {
         movieDao.insertMovies(movies.map { it.toRoomMovie() })

@@ -1,11 +1,11 @@
 package com.antonioleiva.flowworkshop.ui
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.*
 import com.antonioleiva.flowworkshop.data.domain.Movie
 import com.antonioleiva.flowworkshop.data.domain.MoviesRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class MainViewModel(private val repository: MoviesRepository) : ViewModel() {
 
@@ -14,7 +14,16 @@ class MainViewModel(private val repository: MoviesRepository) : ViewModel() {
 
     val movies: LiveData<List<Movie>> get() = repository.getMovies().asLiveData()
 
+    val lastVisible = MutableStateFlow(0)
+
     init {
-        _spinner.value = false
+        _spinner.value = true
+
+        viewModelScope.launch {
+            lastVisible.collect { value ->
+                repository.checkRequireNewPage(value)
+                _spinner.value = false
+            }
+        }
     }
 }

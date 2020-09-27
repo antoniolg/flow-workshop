@@ -2,6 +2,8 @@ package com.antonioleiva.flowworkshop.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.antonioleiva.flowworkshop.R
 import com.antonioleiva.flowworkshop.data.db.RoomDataSource
 import com.antonioleiva.flowworkshop.data.domain.MoviesRepository
@@ -27,6 +29,14 @@ class MainActivity : AppCompatActivity() {
 
             viewModel.spinner.observe(this@MainActivity, { progress.visible = it })
             viewModel.movies.observe(this@MainActivity, { moviesAdapter.submitList(it) })
+
+            val layoutManager = recycler.layoutManager as GridLayoutManager
+
+            recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    viewModel.lastVisible.value = layoutManager.findLastVisibleItemPosition()
+                }
+            })
 
             recycler.adapter = moviesAdapter
         }
