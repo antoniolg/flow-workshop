@@ -2,6 +2,7 @@ package com.antonioleiva.flowworkshop.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.antonioleiva.flowworkshop.R
@@ -10,6 +11,7 @@ import com.antonioleiva.flowworkshop.data.domain.MoviesRepository
 import com.antonioleiva.flowworkshop.data.server.TheMovieDbDataSource
 import com.antonioleiva.flowworkshop.databinding.ActivityMainBinding
 import com.antonioleiva.flowworkshop.ui.common.app
+import com.antonioleiva.flowworkshop.ui.common.collectFlow
 import com.antonioleiva.flowworkshop.ui.common.getViewModel
 import com.antonioleiva.flowworkshop.ui.common.visible
 
@@ -27,8 +29,8 @@ class MainActivity : AppCompatActivity() {
 
             val moviesAdapter = MoviesAdapter()
 
-            viewModel.spinner.observe(this@MainActivity, { progress.visible = it })
-            viewModel.movies.observe(this@MainActivity, { moviesAdapter.submitList(it) })
+            lifecycleScope.collectFlow(viewModel.spinner) { progress.visible = it }
+            lifecycleScope.collectFlow(viewModel.movies) { moviesAdapter.submitList(it) }
 
             val layoutManager = recycler.layoutManager as GridLayoutManager
 
