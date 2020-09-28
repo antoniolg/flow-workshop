@@ -9,9 +9,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.antonioleiva.flowworkshop.R
 import com.antonioleiva.flowworkshop.data.domain.Movie
 import com.antonioleiva.flowworkshop.databinding.ViewMovieBinding
+import com.antonioleiva.flowworkshop.ui.common.collectFlow
+import com.antonioleiva.flowworkshop.ui.common.onClickEvents
+import com.antonioleiva.flowworkshop.ui.common.toast
 import com.bumptech.glide.Glide
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-class MoviesAdapter : ListAdapter<Movie, MoviesAdapter.ItemViewholder>(DiffCallback()) {
+@ExperimentalCoroutinesApi
+class MoviesAdapter(private val scope: CoroutineScope) :
+    ListAdapter<Movie, MoviesAdapter.ItemViewholder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewholder {
         return ItemViewholder(
@@ -20,8 +27,12 @@ class MoviesAdapter : ListAdapter<Movie, MoviesAdapter.ItemViewholder>(DiffCallb
         )
     }
 
-    override fun onBindViewHolder(holder: ItemViewholder, position: Int) {
-        holder.bind(getItem(position))
+    override fun onBindViewHolder(holder: ItemViewholder, position: Int) = with(holder) {
+        val item = getItem(position)
+        bind(item)
+        scope.collectFlow(itemView.onClickEvents) {
+            itemView.context.toast(item.title)
+        }
     }
 
     class ItemViewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {

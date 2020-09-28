@@ -2,6 +2,7 @@ package com.antonioleiva.flowworkshop.ui.common
 
 import android.content.Context
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -11,6 +12,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.conflate
 
 @Suppress("UNCHECKED_CAST")
 inline fun <reified T : ViewModel> FragmentActivity.getViewModel(crossinline factory: () -> T): T {
@@ -34,4 +39,16 @@ val Context.app: MoviesApp
 fun <T> CoroutineScope.collectFlow(flow: Flow<T>, body: suspend (T) -> Unit) {
     flow.onEach { body(it) }
         .launchIn(this)
+}
+
+@ExperimentalCoroutinesApi
+val View.onClickEvents: Flow<View>
+    get() = callbackFlow {
+        val onClickListener = View.OnClickListener { offer(it) }
+        setOnClickListener(onClickListener)
+        awaitClose { setOnClickListener(null) }
+    }.conflate()
+
+fun Context.toast(message: String) {
+    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }
