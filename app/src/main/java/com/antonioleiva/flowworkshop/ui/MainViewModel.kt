@@ -8,6 +8,7 @@ import com.antonioleiva.flowworkshop.ui.common.collectFlow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 
 class MainViewModel(private val repository: MoviesRepository) : ViewModel() {
 
@@ -16,13 +17,11 @@ class MainViewModel(private val repository: MoviesRepository) : ViewModel() {
 
     val movies: Flow<List<Movie>> get() = repository.getMovies()
 
-    val lastVisible = MutableStateFlow(0)
-
     init {
-        viewModelScope.collectFlow(lastVisible, ::notifyLastVisible)
+        viewModelScope.launch { notifyLastVisible(0) }
     }
 
-    private suspend fun notifyLastVisible(lastVisible: Int) {
+    suspend fun notifyLastVisible(lastVisible: Int) {
         repository.checkRequireNewPage(lastVisible)
         _spinner.value = false
     }

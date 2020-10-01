@@ -7,15 +7,13 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.antonioleiva.flowworkshop.MoviesApp
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.conflate
+import kotlinx.coroutines.flow.*
 
 @Suppress("UNCHECKED_CAST")
 inline fun <reified T : ViewModel> FragmentActivity.getViewModel(crossinline factory: () -> T): T {
@@ -52,3 +50,17 @@ val View.onClickEvents: Flow<View>
 fun Context.toast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }
+
+@ExperimentalCoroutinesApi
+val RecyclerView.lastVisibleEvents: Flow<Int>
+    get() = callbackFlow<Int> {
+        val lm = layoutManager as GridLayoutManager
+
+        val listener = object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                offer(lm.findLastVisibleItemPosition())
+            }
+        }
+        addOnScrollListener(listener)
+        awaitClose { removeOnScrollListener(listener) }
+    }.conflate()
