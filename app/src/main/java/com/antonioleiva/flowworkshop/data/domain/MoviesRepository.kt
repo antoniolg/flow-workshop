@@ -1,6 +1,7 @@
 package com.antonioleiva.flowworkshop.data.domain
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withTimeout
 
 private const val PAGE_SIZE = 20
 private const val PAGE_THRESHOLD = 10
@@ -15,7 +16,7 @@ class MoviesRepository(
         val size = localDataSource.size()
         if (lastVisible >= size - PAGE_THRESHOLD) {
             val page = size / PAGE_SIZE + 1
-            val newMovies = remoteDataSource.getMovies(page)
+            val newMovies = withTimeout(5_000) { remoteDataSource.getMovies(page) }
             localDataSource.saveMovies(newMovies)
         }
     }
